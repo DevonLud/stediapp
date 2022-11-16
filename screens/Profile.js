@@ -1,4 +1,4 @@
-
+//3, 11-14, 21, 29, 30, 28, 47-66, 82, 96 -
 import React, { useEffect,useState,useRef } from 'react';
 import { StyleSheet, Text, View, Image, SafeAreaView , Share, ScrollView, Button,TouchableOpacity} from 'react-native';
 import { Card, CardTitle, CardContent} from 'react-native-material-cards';
