@@ -10,6 +10,7 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage, button
 import exerciseImg from '../image/exercise2.png';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome5 } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';//
 // import { Ionicons} from 'react-native-vector-icons';
 // import { Button } from 'react-native-elements';
 // import { IconButton } from 'react-native-paper';
@@ -21,6 +22,16 @@ export default function Counter(props) {
  const [score, setScore] = useState(0);
 
  const [currentScreen, setCurrentScreen] = useState('counter');
+useEffect(()=>{
+  const getUserName = async ()=>{
+    userName.current = await AsyncStorage.getItem('userEmail');
+    console.log('counter userName', userName.current);
+  token.current = await AsyncStorage.getItem('sessionToken');
+console.log('tooken:', token.current);
+  };
+    getuserName();
+},[]);
+
 useEffect(()=>{
   if (currentScreen == 'counter'){
     if (completionCount == 1){
@@ -68,6 +79,7 @@ const startTime = useRef(0);
 const stopTime = useRef(0);
 const testTime = useRef(0);
 const token = useRef("");
+const userName = useRef('');
 
 
 const savingSteps = async(event) =>{
@@ -97,8 +109,12 @@ stepPoints.length=30;
   })
 });
 
- token.current = await tokenResponse.text();
+
+
+ //token.current = await tokenResponse.text();
+
 console.log('token:' ,token.current);
+console.log('userName:', userName.current);
 await fetch('https://dev.stedi.me/rapidsteptest',{
   method:'POST',
   headers:{
@@ -106,7 +122,7 @@ await fetch('https://dev.stedi.me/rapidsteptest',{
    'suresteps.session.token': token.current
   },
   body:JSON.stringify({
-customer:'rom19010@byui.edu',
+customer: userName.current,
 startTime: startTime.current,
 stepPoints,
 stopTime: stopTime.current,
